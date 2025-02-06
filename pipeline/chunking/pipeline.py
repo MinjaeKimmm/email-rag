@@ -54,9 +54,9 @@ class EmailProcessingPipeline:
         # Create embeddings
         self.embedder.embed_chunks(all_chunks)
         
-        print("\n=== Cleaning Up Small Chunks ===")
+        #print("\n=== Cleaning Up Small Chunks ===")
         # Remove chunks that are too small
-        self.embedder.remove_small_chunks()
+        #self.embedder.remove_small_chunks()
         
         print("\n=== Pipeline Complete ===")
 
