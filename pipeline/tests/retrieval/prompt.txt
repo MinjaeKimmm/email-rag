@@ -1,0 +1,2029 @@
+You are the final component in a retrieval-augmented generation (RAG) system dedicated to answering questions about email threads and attached content. The pipeline so far has:
+1. Received a user query
+2. Retrieved the most relevant email conversations (each containing multiple chunks representing email bodies, PDFs, or other attachments)
+3. Passed you the context (these chunks) and the original query
+
+YOUR TASK:
+1. Analyze Query Context
+   - Parse the query: "Summarize our internal sources about the Chinese EV market"
+   - If query involves time references ("recent", "latest", "past year") without explicit dates, use reference date: 2025-2
+   - Identify query type: timeline/historical, financial/performance, general analysis
+   - Determine required information types and depth
+
+2. Process Retrieved Context
+   - Review all conversations and chunks
+   - Map relevant chunks to information needs
+   - Note gaps or limitations in available data
+   - Discard irrelevant content with clear reasoning
+   
+   DOCUMENT ANALYSIS GUIDELINES:
+   - Identify document types within conversations:
+      • Email bodies: Direct communications, summaries
+      • PDF attachments: Reports, presentations, official documents
+      • DOCX attachments: Detailed analysis, transcripts
+      • XLSX attachments: Spreadsheets of specific numerical data
+
+   - Look for patterns across chunks:
+      • Q&A formats with timestamps suggest interviews
+      • Regular date patterns suggest periodic reports
+      • Numbered sections indicate structured documents
+      • Cross-references between chunks indicate related content
+
+3. Plan Response Structure
+   Based on query type, follow these templates:
+
+   TIMELINE/HISTORICAL:
+   • Chronological organization with period markers
+   • Category-based sections (Product, Financial, Regulatory, etc.)
+   • Impact indicators for major events
+   • Multiple detail levels (main event -> implications)
+
+   FINANCIAL/PERFORMANCE:
+   • Executive summary highlighting key trends
+   • Period-by-period breakdown with consistent metrics
+   • Segment analysis with growth drivers
+   • Year-to-date or comparative analysis when relevant
+
+   GENERAL ANALYSIS:
+   • Topic-based organization
+   • Clear information hierarchy
+   • Supporting evidence and context
+   • Impact assessment and implications
+
+4. Format Requirements
+   - All newline characters inside JSON responses must be properly escaped as "\n" instead of raw newlines.
+   - Use "
+
+" for major section breaks
+   - Use "
+" for line breaks within sections
+   - Use "•" for main bullets, "-" for sub-bullets
+   - Consistent indentation for hierarchical information
+   - Clear category headers
+   - Standard metric presentation:
+     Example: "Revenue: $XX (+Y% QoQ, +Z% YoY)"
+
+5. Source Attribution
+   - Specify document types (interview, report, analysis)
+   - Include timing (document date)
+   - Provide context (e.g. when a prompt asked for internal sources: "Based on internal expert interview...")
+   - Indicate authority level (expert analysis, official report)
+
+5. Return Response in This Exact JSON Format:
+FINAL RESPONSE FORMAT:
+{
+    "thought_process": [
+        "First, I analyze the query '[QUERY]' and identify it as [query type]. Given reference date 2025-2, this covers [time period].",
+        
+        "Then, I examine retrieved documents for relevant data:",
+        "- Conversation X (chunk_id) contains [document type] showing [specific content]",
+        "- Conversation Y (chunk_id) includes [document type] with [specific content]",
+        "Other conversations excluded because [reason]",
+        
+        "Next, I structure the response following [template type] format:",
+        "- Main sections: [list sections]",
+        "- Key metrics/events to highlight",
+        "- Organization method",
+        
+        "Finally, I ensure comprehensive coverage and clear progression of information"
+    ],
+    "response": "[Well-structured answer following template format with proper source attribution and escape characters]",
+    "answer": {
+        "chunk_id": "Specific contribution of this chunk to the response and document type",
+        "chunk_id": "Specific contribution of this chunk to the response and document type"
+    }
+}
+
+REQUIREMENTS:
+- Chunk IDs must be numeric
+- Response must follow template structure for query type
+- All metrics/dates must be properly contextualized
+- Include business impact and implications where relevant
+- Maintain consistent formatting throughout
+- Ensure logical flow and clear progression
+- Provide comprehensive coverage while staying focused
+- Properly attribute information to specific document types and sources
+
+Current Reference Date: 2025-2
+
+QUESTION:
+Summarize our internal sources about the Chinese EV market
+
+RETRIEVED EMAIL CONVERSATIONS:
+
+=== Conversation 1 ===
+[Subject: Question about Your AI Needs]
+[From: Rui Ma <rui@alphawatch.ai>]
+[Date: 2024-6-26]
+[Chunk: 1330]
+[Email Body Content:]
+Hi Sumin,
+
+[Chunk: 1333]
+[DOCX Content:]
+Attending industry events and trade shows provides opportunities to learn a lot, especially from mid-level engineers who are often more willing to share detailed technical knowledge. Unless you spend time on the ground in China, driving various EV models, testing charging infrastructure and connectivity, and experiencing autonomous driving capabilities, it's very difficult for Westerners to truly comprehend the affordable quality and relentless competitive pace of innovation happening in the Chinese auto industry. Question: Can you provide a comprehensive overview of the global EV market and the total market opportunity? If we look at from a 30,000 foot level, light vehicle sales globally is about 80.0 million a year. And China does about 30.0 million, but that's including shipment overseas. Last year, it was 9.5 million NEVs shipped from China. If we look at the 3 big regions - China, Europe, and North America - China is by far the leader. Last year was, like, a third of vehicles were NEVs in China. Europe a little bit less, maybe a little bit less than 20%. I think US last year was not quite 10%, close to 10%. So basically 50% let's say the NEVs are from China. They're shipped from China.
+
+[Chunk: 1334]
+[DOCX Content:]
+That's basically the current kind of landscape. Question: Can you share the background for some of the key manufacturers in China, such as BYD, Nio, and Xiaomi? BYD is the largest Chinese EV manufacturer. It was founded by a chemical engineer about 30 years ago and started out as a battery supplier for companies like Nokia. They have built their expertise in batteries over the past 20-30 years. When we talk about the Chinese EV makers like BYD and NIO, they are exporting and selling in many more countries now compared to just 3 or 4 years ago. For example, BYD now has production plants set up globally in places like Hungary, Brazil, Thailand, and Indonesia. Nio, XPeng, and Li Auto are considered the top 3 "smart EV startups" in China. They were all founded about 10 years ago by tech entrepreneurs and are known for their focus on technology. For example, Nio is known for its battery swapping stations, XPeng for its autonomous driving capabilities, and Li Auto for extended range electric vehicles. Xiaomi recently launched its first EV model that aims to compete with premium models like the Porsche Taycan and Tesla Model S, despite likely being priced under 300,000 RMB which is a very competitive part of the EV market in China. Question: How do you assess the competitive dynamics between the Chinese EV makers like BYD versus Tesla? I often say that why the Chinese have gotten to where they are are several t's - affordability, quality, availability, and agility. The availability of Chinese EVs, not only in China but elsewhere in the world, was an important driver behind their rise over the last 2 years. And then there's the China speed - how fast they iterate their models and vehicles and how fast they launch multiple models within a short period of time. This speed is something the foreign automakers really can't compete with. When it comes to Tesla, they have been able to stay strong with only 2 products - the Model 3 and Model Y. Tesla has a huge aura for their brand, as evidenced by the recent Cybertruck tour craziness across 8 cities in China. This brand pull is still very strong for them. But I think the Chinese automakers are covering all different market segments, from small micro vehicles to $150,000 premium vehicles. The Chinese companies are also becoming more confident in launching premium brands as they now have more technical prowess and innovations that are starting to appear first in China before anywhere else. This relentlessness of the Chinese companies is not only pushing the foreign automakers, but becoming a benchmark that these companies need to catch up to. That's why you see partnerships emerging between companies like Volkswagen and XPeng. I think we're in the midst of a prolonged price war that will continue until brands without the financial capabilities are driven out. This war is so cutthroat that even BYD, as the market leader, has had to lower prices and accept lower margins. Question: What's the one thing you know abou...
+
+[Chunk: 1337]
+[DOCX Content:]
+This is very important. At the same time, behind the scenes they are preparing to enter the passenger vehicle market. They recently brought over some U8 SUVs into the US for local testing and to potentially show them to investors and dealerships. I have even driven BYD's Han sedan and Tang SUV models here in the US. So they have been doing some local testing and are looking for the right moment to make an announcement about entering the US passenger vehicle market, either by directly importing from China and eating the current 27.5% tariffs, or using Mexico as a free trade springboard to produce vehicles there and export them tariff-free to North America under NAFTA. This latter approach may irk the US given the tensions with China, so there will likely be a lot of scrutiny. But one way or another, I think it's just a matter of time before BYD enters the US passenger vehicle market alongside other Chinese brands. Question: Does BYD have its own car operating system, its own AI, or self-driving car division? When you talk about BYD, you think of batteries because that's where they started out as a battery company. In terms of robotics, AI, and the vertical integration of autonomous driving and operating systems, BYD is slightly behind other companies. That's why you're seeing collaborations like BYD working with DJI, the drone company that is becoming a force in driver assistance and ADAS features. BYD recently held an event showing their R&D prowess and they are catching up on the autonomous driving aspect. However, I would still say Tesla is probably ahead in claiming and bragging about AI with things like Dojo, Optimus, and Elon Musk's various other startups. But at the same time, BYD's globalization and the tsunami of multiple different EV models hitting different markets is more prevalent than what we see from Tesla. Question: How would Tesla be adapting their strategies in response to the growing presence of Chinese EV makers? Tesla would continue their tactic of making incremental improvements and lacking models in the near term, such as potentially launching the Model 2 next year to compete in China. However, it remains to be seen whether the Model 2 could successfully compete on affordability compared to Chinese EVs. Tesla is also using China as an export base by ramping up production capacity with plans to invest $10 billion in CapEx in China in 2023. This includes expanding the Shanghai factory which was mentioned a couple dozen times in Tesla's recent 10k filing. So Tesla sees China as crucial to their global growth strategy. At the same time, Tesla is benefiting from the strong brand aura and customer excitement in China, as evidenced by the recent Cybertruck tour drawing massive crowds. So Tesla aims to continue leveraging their branding and Elon Musk's persona as a key advantage over Chinese automakers. However, over the longer term, the planned new manufacturing systems and Model 2 launch could represent Tesla's next 'moment' to re...
+
+[Chunk: 1336]
+[DOCX Content:]
+They are also building one in Brazil and using Mexico to export to the US market. This global manufacturing expansion allows them to reduce tariffs and transport costs when entering new markets. The Chinese companies also have to tailor their offerings to meet differing regulations across markets in Europe, as well as varied consumer habits and weather conditions. They are entering partnerships with companies like Volkswagen to navigate the local landscape. And their ability to produce affordable, high quality EVs allows them to export significant volumes from China to other markets and still be cost competitive, even if they face higher tariffs or lose EV subsidies. Question: Is the strategy of Chinese EV carmakers similar to what they did in the solar panels market to beat out the competitors? The strategy of Chinese EV carmakers is not exactly the same as what they did in the solar panels market. There is some protectionism and vested interests on both the Chinese side and the European side that shape the tactics being deployed. For example, while Europe is launching probes into Chinese companies, European automakers also have large markets and operations in China that they want to protect. So it will be a balancing act between the trade confrontations and not wanting too severe repercussions. The dynamics are also different with EVs because unlike solar panels, vehicles have much more complex regulations and consumer preferences across various markets. So while Chinese EVs can compete well on affordability, building awareness and tailoring to local regulations and habits remains an ongoing challenge as they enter more markets globally. However, we are seeing increased availability and exports of Chinese EVs, with companies like BYD rapidly setting up plants globally. So there is momentum but it may not be as straightforward as what happened with solar panels given the complexities of the automotive industry across different markets. Question: How is BYD performing in the US market given the trade war tariffs? BYD has been in the US since 2010 or 2011 when they set up their headquarters. They are already producing electric buses in California, so they have local employees and American jobs.
+
+[Chunk: 1335]
+[DOCX Content:]
+This helps them keep up with the latest innovations and adopt new technologies quickly into their vehicles. For market penetration, Chinese brands are entering multiple global markets and exporting EVs to establish presence and build brand awareness. BYD now has plants in 6 countries beyond China. Meeting various regulations across different markets remains a hurdle. Strategies involve working with local partners, building out charging networks, and pricing vehicles competitively enough to absorb increased costs from tariffs or taxes. Success comes from tailoring vehicles and branding to local consumer preferences. Volume and profitability are still driven by the China market while global expansion continues gradually. Question: What kind of strategies are the Chinese EV manufacturers thinking about for global market entry? The Chinese EV manufacturers are thinking about several strategies for entering global markets. These include building brand awareness, setting up local manufacturing plants, using other markets like Mexico as a springboard to enter the US market, working with local partners to meet regulations and consumer preferences, and exporting affordable EVs from China to compete on price. Specifically, Nio is focused on building its brand, charging network, and battery swap infrastructure as it expands, rather than immediately aiming for high sales volumes. BYD already has 5 global plants and is building a 6th in Indonesia.
+
+[Chunk: 1331]
+[DOCX Content:]
+KEY TAKEAWAYS
+
+Background on Chinese EV market
+China produced 30 million light vehicles in 2022, out of 80 million globally [12:10]
+China's NEVs (new energy vehicles) were 9.5 million in 2022, about 1/3 of vehicles in China [12:27]
+About 50% of global NEVs are shipped from China currently [12:57]
+BYD setting up plants globally, on 6th plant already (e.g. Hungary, Brazil) [27:54]
+Nio launched in Norway in 2021 to build brand & infrastructure [28:18]
+China's EV success factors: affordability, quality, availability, agility on new models [20:25]
+Strong despite chip shortage that halted other automakers [20:43]
+Tesla's brand aura still strong in China though model range limited [21:54]
+Prolonged EV price war in China to drive out weaker players [24:08]
+Chinese EV startups still building brands globally despite barriers [29:05]
+But not taking over yet as European automakers fight back [29:43]
+Competitive dynamics between Chinese and foreign automakers
+Chinese EV makers have grown rapidly in recent years, with BYD and Tesla leading in volumes [00:16]
+Chinese EV makers compete on affordability, quality, availability, and agility in iterating models quickly [20:25]
+Tesla's brand remains strong in China, but lacks model diversity compared to Chinese makers [21:27]
+BYD lacks tech prowess in areas like autonomous driving, so partners with companies like drone maker DJI [36:20]
+Chinese EV startups boast tech founder backgrounds and often debut new tech like steer-by-wire first [38:09]
+Tesla treats China as export hub, investing heavily in Shanghai factory capacity [42:04]
+Price war will likely drive out weaker Chinese EV brands lacking financial capability [51:53]
+Japanese automakers are still investing in hydrogen and fuel cells as a hedge [49:36]
+Technology differentiation
+BYD started as battery supplier in 1995, now expanding to EVs [05:14]
+BYD behind on autonomous driving, AI capabilities compared to others [36:09]
+BYD collaborating with drone company DJI on driver assistance features [36:18]
+Tesla has strong brand pull in China from Cybertruck tour craze [41:01]
+Tesla lacks models compared to Chinese companies pushing out affordable EVs [41:46]
+Tesla using China as export base, investing $10B in Shanghai operations [42:05]
+NIO, Xpeng, Li Auto known as China's big 3 US-listed smart EV startups [16:41]
+Founders have tech/internet background
+Xiaomi benchmarking $25k EV against Porsche, Tesla models 2-3x the price [55:42]
+Market outlook
+China produced 30 million light vehicles in 2022, out of 80 million globally [12:10]
+China's NEV market share was 1/3 in 2022 vs less than 20% in Europe and close to 10% in US [12:32]
+50% of global NEVs shipped from China in 2022 [12:57]
+BYD setting up plants globally, on 6th plant already [27:54]
+Nio launched in Norway in 2021 to build brand and infrastructure [28:18]
+Prolonged price war in China EV market expected to continue and drive out weaker brands [24:08]
+China EV innovations potentially reaching overkill point, prov...
+
+[Chunk: 1332]
+[DOCX Content:]
+He attended a US-China Automotive Council conference in New York City when he was a history teacher and it gave him the idea to start an English newsletter for the western audience about the Chinese auto industry. I helped him with mailing out the physical newsletters while sleeping in the living room of our small apartment. After graduating from college in 2000 with a mechanical engineering degree, I went back to China to help my dad on the ground with his "China Auto Review" newsletter. This was right before China was joining the WTO, so foreign automotive companies were setting up joint ventures to start selling cars in China. I've now been in Beijing for over 20 years since then, publishing a monthly print magazine on the Chinese auto market called "China Auto Review" until August 2020 when we had to stop due to the pandemic. Question: What are the lessons you have learned that you can share with my audience? The key lessons I have learned from my career covering the Chinese auto industry that I can share are:
+Interacting directly with Chinese and foreign automotive companies to understand their different processes and cultures has been invaluable. I've been very fortunate to visit their headquarters, factories, and meet with executives, engineers, and other employees to gain firsthand insights. My bicultural background as a Chinese American has enabled me to easily switch between and understand both Chinese and American cultures. Not everyone has this ability to immerse themselves in two very different cultures.
+
+
+=== Conversation 2 ===
+[Subject: How the antitrust lawsuit against NVDA will impact it, and other companies]
+[From: Boosted.ai Team <sales-team@boosted.ai>]
+[Date: 2024-12-16]
+[Chunk: 264]
+[Email Body Content:]
+Hi Sumin,
+Nvidia's acquisition of Mellanox Technologies, approved in 2020, is under scrutiny in China for potentially violating antitrust rules. The $7 billion deal is being looked over by the State Administration for Market Regulation (SAMR) in China. The potential impacts - both through NVDA's market cap and as a microcosm of China-US relations - are far reaching.
+We used our agentic AI tool - Alfa™ - to create an automation that reads the news, every filing in the Russell 1000 and outputs the potential impacts of this suit and the stocks affected. Here’s the report Alfa™ created, or, the Alfa™ Angle.
+Brainstormed impacts of a Chinese antitrust lawsuit against NVDA
+Nvidia's Mellanox Acquisition Under Chinese Antitrust Scrutiny
+- The Chinese government has launched an antitrust investigation into Nvidia, focusing on its $7 billion acquisition of Mellanox Technologies, a company specializing in networking technology. 
+- The State Administration for Market Regulation (SAMR) in China is scrutinizing whether Nvidia has adhered to the conditions set during the 2020 approval of the Mellanox deal, which required Nvidia to treat Chinese companies on par with others globally.
+- This investigation is part of a broader context of escalating tensions between the United States and China over technology and trade. The investigation is seen as a retaliatory measure against recent U.S. actions aimed at restricting China's access to advanced semiconductor technology. 
+- These U.S. measures include export controls that limit the sale of Nvidia's most advanced chips to China, which has significantly impacted Nvidia's revenue from the Chinese market. Despite these restrictions, Nvidia continues to generate substantial revenue from less advanced chips that it is still permitted to sell in China.
+- The conditions imposed by Chinese regulators during the Mellanox acquisition included commitments to supply GPU accelerators to the Chinese market on fair, reasonable, and non-discriminatory terms. Nvidia was also required to allow customers and distributors to purchase up to one year's inventory of Nvidia GPU accelerators and Mellanox networking equipment under these terms. The investigation will assess Nvidia's compliance with these commitments, including whether Mellanox has been revealing new product details to rivals within 90 days of their launch, as stipulated.
+- This probe is part of a larger pattern of regulatory actions by China, which has previously targeted other foreign technology firms in response to international trade tensions. The outcome of this investigation could have significant implications for Nvidia's operations in China and its global business strategy.
+Impact on Nvidia's AI Chip Market Dominance
+- The Chinese antitrust investigation into Nvidia poses a significant threat to the company's dominance in the AI chip market. Nvidia, which has been a leader in AI chip technology, accounting for 90% of global sales by the end of last year, is now under s...
+
+
+=== Conversation 3 ===
+[Subject: [FADU IR] Dear our valued investors we posted FY2024 3Q Earnings Release (KOSDAQ:440110)]
+[From: 박영미 Mia <youngmi.park@fadu.io>]
+[Date: 2024-11-14]
+[Chunk: 399]
+[Email Body Content:]
+This is Mia from FADU IR.
+I deeply appreciate your support and interest in our company.
+We publicly posted our 2024 3Q earnings today and please see the attachment.
+We recorded revenue of KRW 10.1Bil., up QoQ 42% and up YoY 3,047%.
+We are expanding our customer base backed by quality SSD controller technologies in the enterprise industry, which will be our stable growth drive for the future.
+With our high performance with low power consumption, FADU’s customers can get benefits in terms of TCO, which is essential to execute various AI mission-critical workloads including training and inferencing. We will secure additional hyperscalers and server OEMs as a customer through strong partnership with our business partnership with NAND Flash makers. 
+FADU’s Gen5 eSSD controller solution is shipped successfully getting continuous purchase orders, which are sustainable in 2025 along with expansion of AI server deployments. In addition, we supply module base products to the Asian market. 
+Here are our PO status as follows – posted on Korean public disclosure named “Contract for sales or supply” this year.
+- October 28th, 2024: SSD controller, 3.1Bil to NAND Flash Maker in Korea
+- October 7th, 2024: SSD Controller, KRW 3.1Bil. to NAND Flash Maker in Korea
+- August 5th, 2024: SSD Module, KRW 2.6Bil. to Purchasing agency of global Server manufacturer
+- July 9th, 2024: SSD Controller, KRW 6.8Bil. to NAND Flash Maker in US
+- June 14th, 2024: SSD Controller, KRW 4.7Bil. to NAND Flash Maker in US
+- May 27th, 2024: SSD Module, KRW 19.2Bil. to SSD distributor in China
+For your reference, the earnings materials are available on our website as well.
+(https://ir.fadu.io/financial/earnings )
+If you have any questions about the company or earnings results, please email me.
+Or if you do not want to receive my email, please let me know.
+
+[Chunk: 401]
+[PDF Content:]
+does not undertake any obligation to update any forward-looking statements to
+reflect events that occur or circumstances that arise after the date of this presentation. Ticker :  440110 KOSDAQ
+
+INVESTOR RELATIONS 2024
+
+Disclaimer
+Company
+Presentation
+Headquarter
+Silicon Valley Office
+FADU Technology(Sales/R&D Office)
+EEUM(Connectivity Solution)
+FADU(Shanghai) Technology
+(Sales/R&D Office)
+
+INVESTOR RELATIONS 4
+
+Company Overview
+Fabless Semiconductor Company
+Major Product
+- Enterprise PCIe NVMe SSD Controller Solution
+- SSD Module(ODM)
+Customer
+- Hyperscale Data Centers
+- NAND Manufacturers
+- Storage Providers/Server OEMs
+- Industrial Enterprises
+Future Data Center Portfolio
+- Power Solution
+- CXL Solution
+Released CXL Ecosystem SW as open source(Feb ’24)
+CXL Switch / Configurable Chassis
+- AI Chip
+3Q’24 Employees :  Total 280  /  R&D 244
+
+C-SUITE
+
+Seoul National University, MS/BS
+The Wharton School, MBA
+Partner, Bain & Company
+Jihyo Lee CEO, Co-Founder
+Seoul National University,
+PhD/BS in Computer Science &
+Electrical Engineering
+SKT
+Ehyun Nam CTO, Co-Founder
+Seoul National University, BBA
+Sapphire Technology
+Daekeun Lee COO
+Seoul National University, BS
+Columbia University, MBA
+Partner, Bain & Company
+Samsung SDS
+Jongtaek Won CFO
+Kyungpook National University, BS
+Sungkyunkwan University, MBA
+Vice President, Exicon
+Vice President, Samsung
+Jongyun Yun President
+Shareholding Status(3Q’24)
+Controller Solution
+Value Chain
+Controller →NAND Player →DC
+(Manufacture SSD)
+SSD Module ODM
+Value Chain
+SSD Module →SSD Provider →DC
+SSD Module →DC / Enterprises
+27.60%
+66.96%
+5.10%
+
+ESOP, 0.18%
+
+Treasury Stock,
+0.16%
+In-house Management
+Domestic Investors
+Foreign Investors
+
+ESOP
+
+Treasury Stock
+Shares Outstanding(K): 49,334
+Shares Free Float(K): 40,217(81.52%)
+MP of 3rd Gen
+Company Milestones
+
+INVESTOR RELATIONS 2023 5
+
+MP of  2ndGen
+2015
+Foundation
+2017
+2016
+POC
+(Proof of Concept)
+2018
+
+R&D (2015-2017)
+
+Preparation for MP (2018-2021)
+2019
+Commercialization of
+the 1st Gen
+2020
+Development of
+2nd Gen
+(PCIe Gen4)
+2021
+Commercialization of
+the 2nd Gen
+2022
+Development of 3rd Gen
+(PCIe Gen5)
+2020. BEST OF Show Award
+– Most innovative  Flash
+Memory Startup  at FMS
+2020
+1st Customer Qual. Development of
+1ST Gen
+(PCIe Gen3)
+2023
+Commercialization of
+the 3rd Gen
+Qual.
+
+[Chunk: 406]
+[PDF Content:]
+Corporate Overview
+4. Business Overview
+Consumer SSD
+Enterprise SSD
+Market
+- Commodity Product
+- Size: 254M/Year
+- High-end Product
+- Size: 56M/Year
+Core competence
+- Pricing
+- Quality(Performance and Reliability)
+Performance Index
+- Instant peak performance
+- Sustainability and consistency of performance
+- Performance / Watt
+SSD Controller Players
+- Price-driven Taiwanese companies
+(SMI, Phison etc.)
+- Quality-driven Korean/US companies
+(Samsung electronics, FADU, Marvell)
+Market Participants
+- NAND memory Manufacturers
+- Taiwanese SSD Module Manufacturers
+- A small number of NAND memory manufacturers
+- Datacenter companies
+Customers
+- PC OEM(Dell,  Lenovo etc.)
+- General consumers
+- Datacenters
+- Server OEM(Dell-EMC, HPE etc.)
+5. Key Features of SSD Controller
+Key Features
+Description
+Remapping
+Enables rewriting on NAND, ensuring that NAND's smallest unit of data storage, the
+individual cells are available for the same number of cycles. Garbage Collection
+Collect fragmented data into a single cell to create a new writable block
+Bad Block Management
+Prevent SSD performance degradation by replacing bad blocks with good ones
+Error Correction Code
+Detect and correct errors in NAND
+Flash Memory /
+Host Control
+Multiple bus and chip parallelism / Buffer management of multiple Host command parallelism:
+Data transfer rate required for SSDs with write speed of 50MB/s on a single die exceeds 2,000MB/s, which is
+made possible by parallelization of SSD controllers
+Buffer Management
+Manage write buffers and read caches to improve the performance on QoS(Quality Of Service), latency
+Power Management
+Minimize power consumption by managing all functions
+7
+FADU INC. Corporate Overview
+6. FADU’ enterprise SSD Controllers
+PCIe Gen3
+NVMe SSD Controller
+PCIe Gen4
+NVMe SSD Controller
+PCIe Gen5
+NVMe SSD Controller
+Product
+Specifications
+- NVMe 1.3a / PCIe 3.0x4
+- E1.S, U.2, M.2 formats
+- Sequential Read: 3.5GB/s
+- Sequential Write: 2.7GB/s
+- Random Read: 800 KIOPS
+- Random Write: 100 KIOPS
+- NVMe 1.4a / PCIe 4.0x4 / OCP
+  NVMe Cloud SSD Spec 1.0a
+- E1.S and U.2 formats
+- Sequential Read: 7.3GB/s
+- Sequential Write: 4.6GB/s
+- Random Read: 1,550 KIOPS
+- Random Write: 185 KIOPS
+- NVMe 2.0 / PCIe 5.0x4
+  (X2 dual port)
+- E1.S, E3 and U.2 formats
+- Sequential Read: 14.6GB/s
+- Sequential Write: 10.4GB/s
+- Random Read: 3,480 KIOPS
+- Random Write: 400 KIOPS
+7. FADU’s enterprise SSD Finished products
+PCIe Gen3
+NVMe SSD(Brovo)
+PCIe Gen4
+NVMe SSD(Delta)
+PCIe Gen5
+NVMe SSD(Echo)
+Product
+Specifications
+- Sequential Read: 3.5GB/s
+- Sequential Write: 2.7GB/s
+- Random Read: 800 KIOPS
+- Random Write: 100 KIOPS
+- Active Read : 5W~
+- Active Write : 7W~
+- Sequential Read: 7.3GB/s
+- Sequential Write: 4.6GB/s
+- Random Read: 1,550 KIOPS
+- Random Write: 185 KIOPS
+- Active Read : 12W~
+- Active Write : 13W~
+- Sequential Read: 14.3GB/s
+- Sequential Write: 10.2GB/s
+- Random Read: 3,500 KIOPS
+- Random Write: 400 KIOPS
+- Active Read : 20W~
+- Active Write : 20W~
+8
+FADU INC. Corporate Overview
+8. FAD...
+
+[Chunk: 404]
+[PDF Content:]
+4
+1. Consolidated Subsidiaries
+FADU INC. Corporate Overview
+Company
+Founded on
+Address
+Main Businesses
+Total asset at the end of
+the recent year
+FADU Technology
+Incorporated
+2018.06.18. 2712 Augustine Dr. #220,
+Santa Clara, CA 95054
+Develop and Sales of
+
+FLASH MEMORY
+
+applications
+7,105 KRW Mil. EEUM, INC
+
+2023.08.21
+1725 South Bascom Ave. #1005, Campbell CA 95008
+Develop and market
+CXL Switch
+4,919 KRW Mil. FADU(Shanghai)
+Technology
+2024.07.12
+Jujinzhong Road,
+Changning, Shanghai,
+China
+Develop and Sales of
+
+FLASH MEMORY
+
+applications
+3,597 KRW Mil. 2. Investment in other companies
+Company
+Listed
+First
+acquisitio
+n date
+Purpose of
+Investment
+Initial
+acquisition
+amount
+Stake
+(%)
+Latest fiscal year Financials
+Total assets
+Net Incomes
+FADU Technology
+Incorporated
+Unlisted
+2018.08.22
+Management
+engagement
+337 KRW Mil. 100.0%
+7,105 KRW Mil. 320 KRW Mil. EEUM, INC
+
+Unlisted
+2023.10.05
+Management
+engagement
+5,365 KRW Mil. 69.0%
+4,919 KRW Mil. -437 KRW Mil. Chelsio
+Communications, INC
+Unlisted
+2022.07.14
+Simple
+Investment
+3,918 KRW Mil. 4.0%
+12,311 KRW Mil. -10,195 KRW Mil. FADU(Shanghai)
+Technology(*)
+Unlisted
+2024.08.12
+Management
+engagement
+3,839 KRW Mil. -
+3,597 KRW Mil.
+
+[Chunk: 402]
+[PDF Content:]
+for 3rd
+Gen
+Customer
+Qual. for 2nd
+Gen
+Company established in
+2015 after 2 years of
+preparation based on
+research achievements
+from SNU SSD
+Architecture Lab since
+2006
+~10 employees
+Introduced the first POC at
+
+FMS 2016
+
+Achieved industry-leading
+performance and proven
+architectural excellence
+Intel invited FADU for test and
+acknowledged for excellence
+~20 employees
+Successful development of
+Gen3 Controller
+Debut of controller and
+SSD sample at FMS 2018
+(Award ‘Most innovative
+SSD controller’)
+Started marketing/sales
+~40 employees
+Developed SSD final product for commercialization
+Set up validation/production/quality/sales team
+Successfully passed the US big tech’s thorough
+qualification process over 2 years
+~70 employees
+
+• Successfully passed
+customer qualification / MP
+process by multiple US big
+tech companies
+
+• Started MP and revenue
+generation from 4Q 2021
+
+• ~130 employees
+• Accelerating
+commercialization(Shipping
+of Gen5 Controller from
+late ‘23)
+
+• Drive scale-up with multiple
+customers from ‘24
+
+• ~230 employees
+2017
+2021
+Full-fledged Expansion (2022-2024)
+2024
+Start
+Development of
+4th Gen
+(PCIe Gen6)
+FADU took a first step with SSD Controller, area
+where Korea can differentiate the most
+FADU has a number of world-class experts who has been  focusing on
+innovativeSSD architecture more than  15 years starting at the academy level. Start MP
+FADU are moving to the next phase of growth
+with customer and product diversification
+Position as global leading
+fabless for Data Center
+Attain market leadership for
+eSSD and expand portfolio
+
+INVESTOR RELATIONS 6
+
+Future Pipeline & Goals for Global Fabless
+Prove the technology via
+adoption in leading
+hyperscalers
+·Developed next-gen eSSD
+Controller with innovative
+architectures
+· Secured US based flagship
+customer
+→Proven technology
+competitiveness in the
+forefront market of
+technology, US
+·Went through full process
+from SOC development to
+customer support and even
+to quality assurance and MP
+·Gain massive share in eSSD
+market by winning multiple
+global customers
+· Go to China and other market
+to drive growth in earnest
+·Ramp up R&D of new pipelines
+to fulfill the customer demands
+for next-gen DC evolving into AI etc. →ASIC products including CXL,
+AI processor etc. ·  Commercialization of a
+diverse Semiconductor
+portfolio for next-gen DC
+· Attain SW and System
+capabilities
+→Provide total solutions
+to meet the entire
+requirements from
+customers
+· Capture the position as
+a global fabless company
+Phase1(2015-2022)
+Phase2(2023-2026)
+Phase3(2027-2030)
+Power
+Solution
+CXL
+Solution
+Memory
+Solution
+SW/
+System
+AI
+solution
+·Delivered the first ASIC in Jun 2023
+· Leverage unique low-power IP,
+next-gen PMIC with high efficiency
+·Plan to build a track record as a
+companion to DC SSD Controller
+*CXL(Compute Express Link): Industry
+standard to provide interconnect fabric
+inside  datacenter
+· Deliver next-gen DC systems which
+integrate Memory, CXL, AI, Power
+solutions
+·  Propose optimized solutions for customer
+workloa...
+
+[Chunk: 403]
+[PDF Content:]
+FADU INC. Quarterly Report for 2024 3Q
+(consolidated)
+September 30, 2024
+Ticker :  440110 KOSDAQ
+2
+Index to Consolidated Financial Statements
+Corporate overview………………………………………………………. 3
+Consolidated Interim Financial Statements………………………….. 12
+   Consolidated Statements of Comprehensive Income(Loss)……………….. 12
+   Consolidated Statements of Financial Position………………………………… 14
+   Consolidated Statements of Cash Flows………………………………………… 16
+   Consolidated Statements of Changes in Equity……………………………...... 18
+3
+FADU is a fabless semiconductor company specializing in datacenters, which are growing in
+demand due to the explosive data increase from cloud, AI/Big data, 5G, autonomous driving
+etc. FADU core products are SSD Controllers used in datacenters. In datacenters, Solid State
+Drives(SSDs), which are high-performance data storage devices based on NAND memory
+semiconductors, are rapidly replacing HDDs, the traditional mechanical data storage device. NAND memory has the advantage of being a non-volatile semiconductor and very low cost,
+but it suffers from slow speeds and poor durability. Due to these characteristics of NAND, the role of the SSD Controller, the brain of the SSD
+module, is critical to ensuring the high levels of performance, reliability, and low power/low
+thermal features that hyperscale datacenters require. FADU is the design company of this SSD
+Controller. Our flagship products are the best-in-class performing PCIe NVMe enterprise SSD Controller
+Solutions and enterprise SSDs(SSD ODMs) powered by our controllers, which are compatible with
+all NAND memory products from different companies to deliver the highest performance in all
+SSD metrics, including reliability and power efficiency etc. About FADU INC.
+
+[Chunk: 400]
+[PDF Content:]
+FADU 2024 Q3
+
+Leading Fabless for Next Generation of Datacenter :
+Made Great Start from Datacenter SSD
+
+INVESTOR RELATIONS 2024
+
+Ticker :  440110 KOSDAQ
+All financial information contained herein is based on a consolidated basis in accordance with
+International Financial Reporting Standards (“IFRS”)...
+
+[Chunk: 405]
+[PDF Content:]
+-271 KRW Mil. Total
+27,932 KRW Mil. -10,583 KRW Mil. (*) FADU(Shanghai) Technology, a 100% of subsidiary, is not a joint-stock corporation, so no shares were acquired separately. In addition, the latest financial information
+       for the business year is as of the end of the third quarter of 2024....
+
+[Chunk: 407]
+[PDF Content:]
+R&D Projects
+Year
+Projects
+Products
+Remarks
+2024
+- PCIe Gen6 NVMe enterprise SSD Controller SoC
+
+FC6161
+
+Initiate Gen6 Controller development
+- PCIe Gen5 NVMe E3.S enterprise SSD Module
+ECHO Gen5
+PCIe Gen5 E3.S SSD development completed
+- PCIe Gen5 NVMe U.2 enterprise SSD Module
+ECHO Gen5
+PCIe Gen5 ...
+
+
+=== Conversation 4 ===
+[Subject: # of Users - Watchlist 1: 6 new docs this week (5Y0.KY)]
+[From: AlphaSense <info@alpha-sense.com>]
+[Date: 2024-11-22]
+[Chunk: 311]
+[Email Body Content:]
+6 new docs this week (5Y0.KY)
+# of Users - Watchlist 1 : 6 new documents match 
+Search Criteria: Daus OR maus OR (... 
+Read in AlphaSense 
+Read in AlphaSense 
+Kuaishou Technology 
+6 documents in order of relevance
+Kuaishou Technology, Q3 2024 Earnings Call, Nov 20, 2024 
+Kuaishou Technology • Earnings Call Transcript • 2 pages • 20 Nov 2024 
+Sentiment 99 Sentiment Change 0 
+In Q3, despite a challenging macro environment, we grew our user base and delivered solid financials by staying committed to our tech-driven user-centric business philosophy. We achieved a milestone of over 400 million DAUs and the total revenue grew by 11.4% year-over-year to RMB 31.1 billion. Revenue from our core commercial business, including Online Marketing Services and other services, primarily e-commerce increased by nearly 20% year-over-year. 
+First, user growth and ecosystem construction. In Q3, average DAUs on the Kuaishou App reached 408 million and MAUs reached 714 million, increasing 5.4% and 4.3% year-over-year, respectively. This further solidified our leading position as the third largest app in China. 
+The average daily time spent per DAU on the Kuaishou app was 132.2 minutes, while total user time spent rose 7.3% year-over-year. Average daily live streaming and short video views reached nearly 110 billion. 
+For our Search business, we optimized the search results page to improve accuracy and user experience, significantly increasing user penetration in search. In Q3, average MAUs for the Kuaishou searches exceeded 500 million. Average daily searches climbed by over 20% year-over-year to over 700 million and daily searches peaked at over 800 million. 
+As a result, total marketing spending through the UAX accounted for around 50% of the external marketing spending in Q3. Closed-loop Marketing Services revenue grew in Q3 with monthly active merchants using marketing placement increasing by over 50% year-over-year. Our automated marketing placement services helped small and medium-sized merchants expand GMV and improve retention rates. 
+We leveraged our nationwide partner ecosystem to help new merchants develop their business, focusing on key product categories for existing merchants, we offered refined operational methodologies to support their long-term business growth. In Q3, average monthly active merchants grew by over 40% year-over-year. Our merchants' healthy growth enriched our platform's merchandise ecosystem by expanding categories by over 20% year-over-year and offering users a wider selection of high-quality products. 
+In Q3, pan shelf-based e-commerce GMV accounted for 27% of our total e-commerce GMV and its growth continued to outperform overall GMV growth, driven by strong supply and demand. Average daily active merchants and paying users in our shopping mall grew by nearly 70% and over 60% year-over-year, respectively.
+
+
+=== Conversation 5 ===
+[Subject: # of Users - Watchlist 1 [--]: "Cross-border E-commerce, Bonded Logistics, AI Empowerment, and ..." (Macau Business)]
+[From: AlphaSense <info@alpha-sense.com>]
+[Date: 2024-10-4]
+[Chunk: 637]
+[Email Body Content:]
+"Cross-border E-commerce, Bonded Logistics, AI Empowerment, and ..." (Macau Business)
+# of Users - Watchlist 1 : 1 new document match 
+Search Criteria: Daus OR maus OR (... 
+Read in AlphaSense 
+Read in AlphaSense 
+None 
+1 document
+Cross-border E-commerce, Bonded Logistics, AI Empowerment, and Talent Support: Unlocking New Opportunities for International Brands to Seamlessly Enter the Chinese Market. 
+None • Macau Business • 1 page • 01 Oct 2024 
+Cross-border E-commerce, Bonded Logistics, AI Empowerment, and Talent Support: Unlocking New Opportunities for International Brands to Seamlessly Enter the Chinese Market. KUALA LUMPUR, Malaysia, Oct. 2, 2024 /PRNewswire/ - In recent years, China's e-commerce market has witnessed unprecedented growth, with platforms such as Taobao, Tmall, JD.com, RedNote, Douyin, and Pinduoduo each attracting over 100 million monthly active users. However, for international businesses looking to enter this dynamic market, the multitude of platforms and their diverse rules present considerable challenges, necessitating the guidance of expert service providers well-versed in China's e-commerce landscape. 
+Research on the go.
+Never miss another alert. Download the AlphaSense iOS app for iPhone or iPad. 
+This alert frequency is set to weekly at 8:00 am EST. Manage frequency or turn off alert .
+You are receiving this email alert subject to our standard Disclaimer , Terms of Service and Privacy Policy .
+
+
+=== Conversation 6 ===
+[Subject: [FADU IR] Dear our valued investors_we posted FY2024 2Q Earnings Release]
+[From: 박영미 Mia <youngmi.park@fadu.io>]
+[Date: 2024-8-28]
+[Chunk: 836]
+[Email Body Content:]
+This is Mia from FADU.
+I deeply appreciate your support and interest in our company.
+We publicly posted our 2024 2Q earnings today and please see the attachment.
+I attached a revised file and please refer to this email as the final version.
+For your reference, the earnings materials are available on...
+
+[Chunk: 838]
+[PDF Content:]
+does not undertake any obligation to update any forward-looking statements to
+reflect events that occur or circumstances that arise after the date of this presentation. Ticker :  440110 KOSDAQ
+
+INVESTOR RELATIONS 2024
+
+Disclaimer
+Company
+Presentation
+Headquarter
+Silicon Valley Office
+FADU Technology(R&D/Sales Office)
+EEUM(Connectivity Solution)
+
+INVESTOR RELATIONS 4
+
+Company Overview
+Fabless Semiconductor Company
+Major Product
+- Enterprise PCIe NVMe SSD Controller Solution
+- SSD Module(ODM)
+Customer
+- Hyperscale Data Centers
+- NAND Manufacturers
+- Storage Providers/Server OEMs
+- Industrial Enterprises
+Future Data Center Portfolio
+- Power Solution
+- CXL Solution
+Released CXL Ecosystem SW as open source(Feb ’24)
+CXL Switch / Configurable Chassis
+- AI Chip
+2Q’24 Employees :  Total 273  /  R&D 239
+
+C-SUITE
+
+Seoul National University, MS/BS
+The Wharton School, MBA
+Partner, Bain & Company
+Jihyo Lee CEO, Co-Founder
+Seoul National University,
+PhD/BS in Computer Science &
+Electrical Engineering
+SKT
+Ihyun Nam CTO, Co-Founder
+Seoul National University, BBA
+Sapphire Technology
+Daekeun Lee COO
+Seoul National University, BS
+Columbia University, MBA
+Partner, Bain & Company
+Samsung SDS
+Jongtaek Won CFO
+Kyungpook National University, BS
+Sungkyunkwan University, MBA
+Vice President, Exicon
+Vice President, Samsung
+Jongyun Yun President
+Shareholding Status(2Q’24)
+Controller Solution
+Value Chain
+Controller →NAND Player →DC
+(Manufacture SSD)
+SSD Module ODM
+Value Chain
+SSD Module →SSD Provider →DC
+SSD Module →DC / Enterprises
+27.85%
+65.18%
+6.32%
+
+ESOP, 0.48%
+
+Treasury Stock,
+0.16%
+In-house Management
+Domestic Investors
+Foreign Investors
+
+ESOP
+
+Treasury Stock
+Shares Outstanding(K): 49,189
+Shares Free Float(K): 33,129(67.35%)
+MP of 3rd Gen
+Company Milestones
+
+INVESTOR RELATIONS 2023 5
+
+MP of  2ndGen
+2015
+Foundation
+2017
+2016
+POC
+(Proof of Concept)
+2018
+
+R&D (2015-2017)
+
+Preparation for MP (2018-2021)
+2019
+Commercialization of
+the 1st Gen
+2020
+Development of
+2nd Gen
+(PCIe Gen4)
+2021
+Commercialization of
+the 2nd Gen
+2022
+Development of 3rd Gen
+(PCIe Gen5)
+2020. BEST OF Show Award
+– Most innovative  Flash
+Memory Startup  at FMS
+2020
+1st Customer Qual. Development of
+1ST Gen
+(PCIe Gen3)
+2023
+Commercialization of
+the 3rd Gen
+Qual.
+
+[Chunk: 842]
+[PDF Content:]
+Corporate Overview
+4. Business Overview
+Consumer SSD
+Enterprise SSD
+Market
+- Commodity Product
+- Size: 254M/Year
+- High-end Product
+- Size: 56M/Year
+Core competence
+- Pricing
+- Quality(Performance and Reliability)
+Performance Index
+- Instant peak performance
+- Sustainability and consistency of performance
+- Performance / Watt
+SSD Controller Players
+- Price-driven Taiwanese companies
+(SMI, Phison etc.)
+- Quality-driven Korean/US companies
+(Samsung electronics, FADU, Marvell)
+Market Participants
+- NAND memory Manufacturers
+- Taiwanese SSD Module Manufacturers
+- A small number of NAND memory manufacturers
+- Datacenter companies
+Customers
+- PC OEM(Dell,  Lenovo etc.)
+- General consumers
+- Datacenters
+- Server OEM(Dell-EMC, HPE etc.)
+5. Key Features of SSD Controller
+Key Features
+Description
+Remapping
+Enables rewriting on NAND, ensuring that NAND's smallest unit of data storage, the
+individual cells are available for the same number of cycles. Garbage Collection
+Collect fragmented data into a single cell to create a new writable block
+Bad Block Management
+Prevent SSD performance degradation by replacing bad blocks with good ones
+Error Correction Code
+Detect and correct errors in NAND
+Flash Memory /
+Host Control
+Multiple bus and chip parallelism / Buffer management of multiple Host command parallelism:
+Data transfer rate required for SSDs with write speed of 50MB/s on a single die exceeds 2,000MB/s, which is
+made possible by parallelization of SSD controllers
+Buffer Management
+Manage write buffers and read caches to improve the performance on QoS(Quality Of Service), latency
+Power Management
+Minimize power consumption by managing all functions
+6
+FADU INC. Corporate Overview
+6. FADU’ enterprise SSD Controllers
+PCIe Gen3
+NVMe SSD Controller
+PCIe Gen4
+NVMe SSD Controller
+PCIe Gen5
+NVMe SSD Controller
+Product
+Specifications
+- NVMe 1.3a / PCIe 3.0x4
+- E1.S, U.2, M.2 formats
+- Sequential Read: 3.5GB/s
+- Sequential Write: 2.7GB/s
+- Random Read: 800 KIOPS
+- Random Write: 100 KIOPS
+- NVMe 1.4a / PCIe 4.0x4 / OCP
+  NVMe Cloud SSD Spec 1.0a
+- E1.S and U.2 formats
+- Sequential Read: 7.3GB/s
+- Sequential Write: 4.6GB/s
+- Random Read: 1,550 KIOPS
+- Random Write: 185 KIOPS
+- NVMe 2.0 / PCIe 5.0x4
+  (X2 dual port)
+- E1.S, E3 and U.2 formats
+- Sequential Read: 14.6GB/s
+- Sequential Write: 10.4GB/s
+- Random Read: 3,480 KIOPS
+- Random Write: 400 KIOPS
+7. FADU’s enterprise SSD Finished products
+PCIe Gen3
+NVMe SSD(Brovo)
+PCIe Gen4
+NVMe SSD(Delta)
+PCIe Gen5
+NVMe SSD(Echo)
+Product
+Specifications
+- Sequential Read: 3.5GB/s
+- Sequential Write: 2.7GB/s
+- Random Read: 800 KIOPS
+- Random Write: 100 KIOPS
+- Active Read : 5W~
+- Active Write : 7W~
+- Sequential Read: 7.3GB/s
+- Sequential Write: 4.6GB/s
+- Random Read: 1,550 KIOPS
+- Random Write: 185 KIOPS
+- Active Read : 12W~
+- Active Write : 13W~
+- Sequential Read: 14.3GB/s
+- Sequential Write: 10.2GB/s
+- Random Read: 3,500 KIOPS
+- Random Write: 400 KIOPS
+- Active Read : 20W~
+- Active Write : 20W~
+7
+FADU INC. Corporate Overview
+8. FAD...
+
+[Chunk: 839]
+[PDF Content:]
+for 3rd
+Gen
+Customer
+Qual. for 2nd
+Gen
+Company established in
+2015 after 2 years of
+preparation based on
+research achievements
+from SNU SSD
+Architecture Lab since
+2006
+~10 employees
+Introduced the first POC at
+
+FMS 2016
+
+Achieved industry-leading
+performance and proven
+architectural excellence
+Intel invited FADU for test and
+acknowledged for excellence
+~20 employees
+Successful development of
+Gen3 Controller
+Debut of controller and
+SSD sample at FMS 2018
+(Award ‘Most innovative
+SSD controller’)
+Started marketing/sales
+~40 employees
+Developed SSD final product for commercialization
+Set up validation/production/quality/sales team
+Successfully passed the US big tech’s thorough
+qualification process over 2 years
+~70 employees
+
+• Successfully passed
+customer qualification / MP
+process by multiple US big
+tech companies
+
+• Started MP and revenue
+generation from 4Q 2021
+
+• ~130 employees
+• Accelerating
+commercialization(Shipping
+of Gen5 Controller from
+late ‘23)
+
+• Drive scale-up with multiple
+customers from ‘24
+
+• ~230 employees
+2017
+2021
+Full-fledged Expansion (2022-2024)
+2024
+Start
+Development of
+4th Gen
+(PCIe Gen6)
+FADU took a first step with SSD Controller, area
+where Korea can differentiate the most
+FADU has a number of world-class experts who has been  focusing on
+innovativeSSD architecture more than  15 years starting at the academy level. Start MP
+FADU are moving to the next phase of growth
+with customer and product diversification
+Position as global leading
+fabless for Data Center
+Attain market leadership for
+eSSD and expand portfolio
+
+INVESTOR RELATIONS 6
+
+Future Pipeline & Goals for Global Fabless
+Prove the technology via
+adoption in leading
+hyperscalers
+·Developed next-gen eSSD
+Controller with innovative
+architectures
+· Secured US based flagship
+customer
+→Proven technology
+competitiveness in the
+forefront market of
+technology, US
+·Went through full process
+from SOC development to
+customer support and even
+to quality assurance and MP
+·Gain massive share in eSSD
+market by winning multiple
+global customers
+· Go to China and other
+market to drive growth
+in earnest
+·Ramp up R&D of new
+pipelines to fulfill
+the customer demands for
+next-gen DC evolving into AI
+etc. →ASIC products including
+CXL, AI processor etc. ·  Commercialization of a
+diverse Semiconductor
+portfolio for next-gen DC
+· Attain SW and System
+capabilities
+→Provide total solutions
+to meet the entire
+requirements from
+customers
+· Capture the position as
+a global fabless company
+Phase1(2015-2022)
+Phase2(2023-2026)
+Phase3(2027-2030)
+Power
+Solution
+CXL
+Solution
+Memory
+Solution
+SW/
+System
+AI
+solution
+·Delivered the first ASIC in Jun 2023
+· Leverage unique low-power IP,
+next-gen PMIC with high efficiency
+·Plan to build a track record as a
+companion to DC SSD Controller
+*CXL(Compute Express Link): Industry
+standard to provide interconnect fabric
+inside  datacenter
+· Deliver next-gen DC systems which
+integrate Memory, CXL, AI, Power
+solutions
+·  Propose optimized solutions for customer
+workloa...
+
+[Chunk: 841]
+[PDF Content:]
+4
+1. Consolidated Subsidiaries
+FADU INC. Corporate Overview
+Company
+Founded on
+Address
+Main Businesses
+Total asset at the end of
+the recent year
+FADU Technology
+Incorporated
+2018.06.18. 2712 Augustine Dr. #220,
+Santa Clara, CA 95054
+Develop and market
+
+FLASH MEMORY
+
+applications
+7,105 KRW Mil. EEUM, INC
+
+2023.08.21
+1725 South Bascom Ave. #1005, Campbell CA 95008
+Develop and market
+CXL Switch
+4,919 KRW Mil. 2. Investment in other companies
+Company
+Listed
+First
+acquisitio
+n date
+Purpose of
+Investment
+Initial
+acquisition
+amount
+Stake
+(%)
+Latest fiscal year Financials
+Total assets
+Net Incomes
+FADU Technology
+Incorporated
+Unlisted
+2018.08.22
+Management
+engagement
+337 KRW Mil. 100.0%
+7,105 KRW Mil. 320 KRW Mil. EEUM, INC
+
+Unlisted
+2023.10.05
+Management
+engagement
+5,365 KRW Mil. 69.0%
+4,919 KRW Mil. -437 KRW Mil. Chelsio
+Communications, INC
+Unlisted
+2022.07.14
+Simple
+Investment
+3,918 KRW Mil. 4.0%
+12,311 KRW Mil. -10,195 KRW Mil. 3. Total Number of Shares
+(Unit: Shares)
+Type of share
+Common Shares
+Preferred Shares
+Total
+Ⅰ. Total number of shares to be issued
+75,000,000
+25,000,000
+100,000,000
+Ⅱ. Total number of shares issued so far
+49,189,260
+663,072
+49,852,332
+Ⅲ. Total number of shares decreased so far
+-
+663,072
+663,072
+1. Capital decrease
+-
+-
+-
+2. Interest distribution
+-
+-
+-
+3. Redemption of redeemable shares
+-
+-
+-
+4. Others
+-
+663,072
+663,072
+Ⅳ. Total issued shares(Ⅱ - Ⅲ)
+49,189,260
+-
+49,189,260
+Ⅴ. Treasury shares
+80,000
+-
+80,000
+Ⅵ. Outstanding shares(Ⅳ-Ⅴ)
+49,109,260
+-
+49,109,260
+Note. All of the outstanding RCPS and CPS was converted into common stock in 2022. 5
+FADU INC.
+
+[Chunk: 837]
+[PDF Content:]
+FADU 2024 Q2
+
+Leading Fabless for Next Generation of Datacenter :
+Made Great Start from Datacenter SSD
+
+INVESTOR RELATIONS 2024
+
+Ticker :  440110 KOSDAQ
+All financial information contained herein is based on a consolidated basis in accordance with
+International Financial Reporting Standards (“IFRS”)...
+
+[Chunk: 840]
+[PDF Content:]
+FADU INC. Quarterly Report for 2024 2Q
+(consolidated)
+June 30, 2024
+Ticker :  440110 KOSDAQ
+2
+Index to Consolidated Financial Statements
+Corporate overview………………………………………………………. 3
+Consolidated Interim Financial Statements………………………….. 9
+   Consolidated Statements of Comprehensive Income(Loss)………………… ...
+
+[Chunk: 843]
+[PDF Content:]
+R&D for Next-generation Products
+10
+FADU INC. and Subsdiaries
+Consolidated Statements of Comprehensive Income (Loss)
+(In millions of Korean won)
+
+1Q22
+
+2Q22
+
+3Q22
+
+4Q22
+
+1Q23
+
+2Q23
+
+3Q23
+
+4Q23
+
+1Q24
+
+2Q24
+
+Y2020
+
+Y2021
+
+Y2022
+
+Y2023
+
+Revenue
+11,497
+7,471
+13,592
+23,841
+17,664
+59
+321
+4,427
+2,332
+7,093...
+
+
+=== Conversation 7 ===
+[Subject: [FADU IR] Dear our valued investors_we posted FY2024 2Q Earnings Release]
+[From: 박영미 Mia <youngmi.park@fadu.io>]
+[Date: 2024-8-28]
+[Chunk: 844]
+[Email Body Content:]
+This is Mia from FADU.
+I deeply appreciate your support and interest in our company.
+We publicly posted our 2024 2Q earnings today and please see the attachment.
+For your reference, the earnings materials are available on our website as well.
+If you have any questions about the company or earnings r...
+
+[Chunk: 846]
+[PDF Content:]
+does not undertake any obligation to update any forward-looking statements to
+reflect events that occur or circumstances that arise after the date of this presentation. Ticker :  440110 KOSDAQ
+
+INVESTOR RELATIONS 2024
+
+Disclaimer
+Company
+Presentation
+Headquarter
+Silicon Valley Office
+FADU Technology(R&D/Sales Office)
+EEUM(Connectivity Solution)
+
+INVESTOR RELATIONS 4
+
+Company Overview
+Fabless Semiconductor Company
+Major Product
+- Enterprise PCIe NVMe SSD Controller Solution
+- SSD Module(ODM)
+Customer
+- Hyperscale Data Centers
+- NAND Manufacturers
+- Storage Providers/Server OEMs
+- Industrial Enterprises
+Future Data Center Portfolio
+- Power Solution
+- CXL Solution
+Released CXL Ecosystem SW as open source(Feb ’24)
+CXL Switch / Configurable Chassis
+- AI Chip
+2Q’24 Employees :  Total 273  /  R&D 239
+
+C-SUITE
+
+Seoul National University, MS/BS
+The Wharton School, MBA
+Partner, Bain & Company
+Jihyo Lee CEO, Co-Founder
+Seoul National University,
+PhD/BS in Computer Science &
+Electrical Engineering
+SKT
+Ihyun Nam CTO, Co-Founder
+Seoul National University, BBA
+Sapphire Technology
+Daekeun Lee COO
+Seoul National University, BS
+Columbia University, MBA
+Partner, Bain & Company
+Samsung SDS
+Jongtaek Won CFO
+Kyungpook National University, BS
+Sungkyunkwan University, MBA
+Vice President, Exicon
+Vice President, Samsung
+Jongyun Yun President
+Shareholding Status(2Q’24)
+Controller Solution
+Value Chain
+Controller →NAND Player →DC
+(Manufacture SSD)
+SSD Module ODM
+Value Chain
+SSD Module →SSD Provider →DC
+SSD Module →DC / Enterprises
+27.85%
+65.18%
+6.32%
+
+ESOP, 0.48%
+
+Treasury Stock,
+0.16%
+In-house Management
+Domestic Investors
+Foreign Investors
+
+ESOP
+
+Treasury Stock
+Shares Outstanding(K): 49,189
+Shares Free Float(K): 33,129(67.35%)
+MP of 3rd Gen
+Company Milestones
+
+INVESTOR RELATIONS 2023 5
+
+MP of  2ndGen
+2015
+Foundation
+2017
+2016
+POC
+(Proof of Concept)
+2018
+
+R&D (2015-2017)
+
+Preparation for MP (2018-2021)
+2019
+Commercialization of
+the 1st Gen
+2020
+Development of
+2nd Gen
+(PCIe Gen4)
+2021
+Commercialization of
+the 2nd Gen
+2022
+Development of 3rd Gen
+(PCIe Gen5)
+2020. BEST OF Show Award
+– Most innovative  Flash
+Memory Startup  at FMS
+2020
+1st Customer Qual. Development of
+1ST Gen
+(PCIe Gen3)
+2023
+Commercialization of
+the 3rd Gen
+Qual.
+
+[Chunk: 850]
+[PDF Content:]
+Corporate Overview
+4. Business Overview
+Consumer SSD
+Enterprise SSD
+Market
+- Commodity Product
+- Size: 254M/Year
+- High-end Product
+- Size: 56M/Year
+Core competence
+- Pricing
+- Quality(Performance and Reliability)
+Performance Index
+- Instant peak performance
+- Sustainability and consistency of performance
+- Performance / Watt
+SSD Controller Players
+- Price-driven Taiwanese companies
+(SMI, Phison etc.)
+- Quality-driven Korean/US companies
+(Samsung electronics, FADU, Marvell)
+Market Participants
+- NAND memory Manufacturers
+- Taiwanese SSD Module Manufacturers
+- A small number of NAND memory manufacturers
+- Datacenter companies
+Customers
+- PC OEM(Dell,  Lenovo etc.)
+- General consumers
+- Datacenters
+- Server OEM(Dell-EMC, HPE etc.)
+5. Key Features of SSD Controller
+Key Features
+Description
+Remapping
+Enables rewriting on NAND, ensuring that NAND's smallest unit of data storage, the
+individual cells are available for the same number of cycles. Garbage Collection
+Collect fragmented data into a single cell to create a new writable block
+Bad Block Management
+Prevent SSD performance degradation by replacing bad blocks with good ones
+Error Correction Code
+Detect and correct errors in NAND
+Flash Memory /
+Host Control
+Multiple bus and chip parallelism / Buffer management of multiple Host command parallelism:
+Data transfer rate required for SSDs with write speed of 50MB/s on a single die exceeds 2,000MB/s, which is
+made possible by parallelization of SSD controllers
+Buffer Management
+Manage write buffers and read caches to improve the performance on QoS(Quality Of Service), latency
+Power Management
+Minimize power consumption by managing all functions
+6
+FADU INC. Corporate Overview
+6. FADU’ enterprise SSD Controllers
+PCIe Gen3
+NVMe SSD Controller
+PCIe Gen4
+NVMe SSD Controller
+PCIe Gen5
+NVMe SSD Controller
+Product
+Specifications
+- NVMe 1.3a / PCIe 3.0x4
+- E1.S, U.2, M.2 formats
+- Sequential Read: 3.5GB/s
+- Sequential Write: 2.7GB/s
+- Random Read: 800 KIOPS
+- Random Write: 100 KIOPS
+- NVMe 1.4a / PCIe 4.0x4 / OCP
+  NVMe Cloud SSD Spec 1.0a
+- E1.S and U.2 formats
+- Sequential Read: 7.3GB/s
+- Sequential Write: 4.6GB/s
+- Random Read: 1,550 KIOPS
+- Random Write: 185 KIOPS
+- NVMe 2.0 / PCIe 5.0x4
+  (X2 dual port)
+- E1.S, E3 and U.2 formats
+- Sequential Read: 14.6GB/s
+- Sequential Write: 10.4GB/s
+- Random Read: 3,480 KIOPS
+- Random Write: 400 KIOPS
+7. FADU’s enterprise SSD Finished products
+PCIe Gen3
+NVMe SSD(Brovo)
+PCIe Gen4
+NVMe SSD(Delta)
+PCIe Gen5
+NVMe SSD(Echo)
+Product
+Specifications
+- Sequential Read: 3.5GB/s
+- Sequential Write: 2.7GB/s
+- Random Read: 800 KIOPS
+- Random Write: 100 KIOPS
+- Active Read : 5W~
+- Active Write : 7W~
+- Sequential Read: 7.3GB/s
+- Sequential Write: 4.6GB/s
+- Random Read: 1,550 KIOPS
+- Random Write: 185 KIOPS
+- Active Read : 12W~
+- Active Write : 13W~
+- Sequential Read: 14.3GB/s
+- Sequential Write: 10.2GB/s
+- Random Read: 3,500 KIOPS
+- Random Write: 400 KIOPS
+- Active Read : 20W~
+- Active Write : 20W~
+7
+FADU INC. Corporate Overview
+8. FAD...
+
+[Chunk: 847]
+[PDF Content:]
+for 3rd
+Gen
+Customer
+Qual. for 2nd
+Gen
+Company established in
+2015 after 2 years of
+preparation based on
+research achievements
+from SNU SSD
+Architecture Lab since
+2006
+~10 employees
+Introduced the first POC at
+
+FMS 2016
+
+Achieved industry-leading
+performance and proven
+architectural excellence
+Intel invited FADU for test and
+acknowledged for excellence
+~20 employees
+Successful development of
+Gen3 Controller
+Debut of controller and
+SSD sample at FMS 2018
+(Award ‘Most innovative
+SSD controller’)
+Started marketing/sales
+~40 employees
+Developed SSD final product for commercialization
+Set up validation/production/quality/sales team
+Successfully passed the US big tech’s thorough
+qualification process over 2 years
+~70 employees
+
+• Successfully passed
+customer qualification / MP
+process by multiple US big
+tech companies
+
+• Started MP and revenue
+generation from 4Q 2021
+
+• ~130 employees
+• Accelerating
+commercialization(Shipping
+of Gen5 Controller from
+late ‘23)
+
+• Drive scale-up with multiple
+customers from ‘24
+
+• ~230 employees
+2017
+2021
+Full-fledged Expansion (2022-2024)
+2024
+Start
+Development of
+4th Gen
+(PCIe Gen6)
+FADU took a first step with SSD Controller, area
+where Korea can differentiate the most
+FADU has a number of world-class experts who has been  focusing on
+innovativeSSD architecture more than  15 years starting at the academy level. Start MP
+FADU are moving to the next phase of growth
+with customer and product diversification
+Position as global leading
+fabless for Data Center
+Attain market leadership for
+eSSD and expand portfolio
+
+INVESTOR RELATIONS 6
+
+Future Pipeline & Goals for Global Fabless
+Prove the technology via
+adoption in leading
+hyperscalers
+·Developed next-gen eSSD
+Controller with innovative
+architectures
+· Secured US based flagship
+customer
+→Proven technology
+competitiveness in the
+forefront market of
+technology, US
+·Went through full process
+from SOC development to
+customer support and even
+to quality assurance and MP
+·Gain massive share in eSSD
+market by winning multiple
+global customers
+· Go to China and other
+market to drive growth
+in earnest
+·Ramp up R&D of new
+pipelines to fulfill
+the customer demands for
+next-gen DC evolving into AI
+etc. →ASIC products including
+CXL, AI processor etc. ·  Commercialization of a
+diverse Semiconductor
+portfolio for next-gen DC
+· Attain SW and System
+capabilities
+→Provide total solutions
+to meet the entire
+requirements from
+customers
+· Capture the position as
+a global fabless company
+Phase1(2015-2022)
+Phase2(2023-2026)
+Phase3(2027-2030)
+Power
+Solution
+CXL
+Solution
+Memory
+Solution
+SW/
+System
+AI
+solution
+·Delivered the first ASIC in Jun 2023
+· Leverage unique low-power IP,
+next-gen PMIC with high efficiency
+·Plan to build a track record as a
+companion to DC SSD Controller
+*CXL(Compute Express Link): Industry
+standard to provide interconnect fabric
+inside  datacenter
+· Deliver next-gen DC systems which
+integrate Memory, CXL, AI, Power
+solutions
+·  Propose optimized solutions for customer
+workloa...
+
+[Chunk: 849]
+[PDF Content:]
+4
+1. Consolidated Subsidiaries
+FADU INC. Corporate Overview(As of December 31, 2023)
+Company
+Founded on
+Address
+Main Businesses
+Total asset at the end of
+the recent year
+FADU Technology
+Incorporated
+2018.06.18. 2712 Augustine Dr. #220,
+Santa Clara, CA 95054
+Develop and market
+
+FLASH MEMORY
+
+applications
+7,105 KRW Mil. EEUM, INC
+
+2023.08.21
+1725 South Bascom Ave. #1005, Campbell CA 95008
+Develop and market
+CXL Switch
+4,919 KRW Mil. 2. Investment in other companies
+Company
+Listed
+First
+acquisitio
+n date
+Purpose of
+Investment
+Initial
+acquisition
+amount
+Stake
+(%)
+Latest fiscal year Financials
+Total assets
+Net Incomes
+FADU Technology
+Incorporated
+Unlisted
+2018.08.22
+Management
+engagement
+337 KRW Mil. 100.0%
+7,105 KRW Mil. 320 KRW Mil. EEUM, INC
+
+Unlisted
+2023.10.05
+Management
+engagement
+5,365 KRW Mil. 69.0%
+4,919 KRW Mil. -437 KRW Mil. Chelsio
+Communications, INC
+Unlisted
+2022.07.14
+Simple
+Investment
+3,918 KRW Mil. 4.0%
+12,311 KRW Mil. -10,195 KRW Mil. 3. Total Number of Shares
+(Unit: Shares)
+Type of share
+Common Shares
+Preferred Shares
+Total
+Ⅰ. Total number of shares to be issued
+75,000,000
+25,000,000
+100,000,000
+Ⅱ. Total number of shares issued so far
+49,189,260
+663,072
+49,852,332
+Ⅲ. Total number of shares decreased so far
+-
+663,072
+663,072
+1. Capital decrease
+-
+-
+-
+2. Interest distribution
+-
+-
+-
+3. Redemption of redeemable shares
+-
+-
+-
+4. Others
+-
+663,072
+663,072
+Ⅳ. Total issued shares(Ⅱ - Ⅲ)
+49,189,260
+-
+49,189,260
+Ⅴ. Treasury shares
+80,000
+-
+80,000
+Ⅵ. Outstanding shares(Ⅳ-Ⅴ)
+49,109,260
+-
+49,109,260
+Note. All of the outstanding RCPS and CPS was converted into common stock in 2022. 5
+FADU INC.
+
+[Chunk: 845]
+[PDF Content:]
+FADU 2024 Q2
+
+Leading Fabless for Next Generation of Datacenter :
+Made Great Start from Datacenter SSD
+
+INVESTOR RELATIONS 2024
+
+Ticker :  440110 KOSDAQ
+All financial information contained herein is based on a consolidated basis in accordance with
+International Financial Reporting Standards (“IFRS”)...
+
+[Chunk: 848]
+[PDF Content:]
+FADU INC. Quarterly Report for 2024 2Q
+(consolidated)
+June 30, 2024
+Ticker :  440110 KOSDAQ
+2
+Index to Consolidated Financial Statements
+Corporate overview………………………………………………………. 3
+Consolidated Interim Financial Statements………………………….. 9
+   Consolidated Statements of Comprehensive Income(Loss)………………… ...
+
+[Chunk: 851]
+[PDF Content:]
+R&D for Next-generation Products
+10
+FADU INC. and Subsdiaries
+Consolidated Statements of Comprehensive Income (Loss)
+(In millions of Korean won)
+
+1Q22
+
+2Q22
+
+3Q22
+
+4Q22
+
+1Q23
+
+2Q23
+
+3Q23
+
+4Q23
+
+1Q24
+
+2Q24
+
+Y2020
+
+Y2021
+
+Y2022
+
+Y2023
+
+Revenue
+11,497
+7,471
+13,592
+23,841
+17,664
+59
+321
+4,427
+2,332
+7,093...
+
+
+=== Conversation 8 ===
+[Subject: ET Pro: January 21st 2025]
+[From: Exploding Topics Pro <pro@explodingtopics.com>]
+[Date: 2025-1-21]
+[Chunk: 40]
+[Email Body Content:]
+Hey Sumin, 
+Welcome to this week’s Exploding Topics Pro report. 
+In this report… 
+Early bird companies: Spectral AI, Nivoda, Codeyoung, Bird Buddy. 
+Tomorrow’s products today: 3D book nook, revenue based finance, clove water, ebike battery bag. 
+Do you have any feedback? We’d love to hear what you think. Just respond to let us know. 
+Early Bird Companies 
+Spectral AI (website , search trend )
+Spectral AI is a wound imaging startup. 
+It uses multispectral imaging to take scans of wounds across various different wavelengths on the electromagnetic spectrum. 
+AI then analyzes the images to give clinicians a prediction of how the wound will heal, with the benefit of information not visible to the human eye. 
+The DeepView artificial intelligence model has been trained on 263B data points from a clinical database. 
+Spectral reported $8.2M in research and development revenue in Q3 2024, mainly received through work done under contracts with the US government. 
+What’s next:
+Spectral AI is part of the Healthcare AI meta trend. 
+The global healthcare automation market is projected to be worth $119.5B by 2033. 
+And wide adoption of AI in the US healthcare system could save between $200B and $360B per year. 
+Medical imaging has been a strong area of innovation, with more than 700 of the 950 FDA-approved medical AI devices relating to radiology. Here are a couple of examples: 
+Lunit is a South Korean imaging startup dedicated to improving cancer scans. It acquired breast scanning business Volpara last year for $193M . 
+RapidAI has analyzed 14 million scans in a bid to improve vascular and neurovascular care. It is used in over 2.2K hospitals . 
+Nivoda (website , search trend )
+Nivoda is an online B2B diamond database. 
+It allows jewellery retailers to offer an extensive collection of over 2M natural and lab-grown diamonds to customers, without taking on any inventory risk. 
+Orders from multiple suppliers are consolidated into a single invoice and shipment, and quality-checked by Nivoda. 
+The platform added colored gemstones in 2023, with more than 80K now available. 
+Nivoda secured a $51M Series C funding round in November, just 6 months after raising a $30M Series B round. 
+What’s next:
+Nivoda is part of the Diamond Tech meta trend. 
+Diamonds are a $100B industry worldwide. And 18% of the total diamond supply is now lab-grown. 
+Structurally identical to natural diamonds but grown in controlled conditions, the market value of all lab-grown diamonds is forecast to hit $59.5B by 2032. 
+VRAI exclusively sells lab-grown diamonds. It is the consumer arm of Diamond Foundry, which has raised $515M in total funding. 
+Away from lab-grown diamonds, there have also been advances in precision cutting techniques and AI diamond grading . 
+Synova sells diamond cutting systems which use lasers guided by microscopically-thin jets of water. More than 500 machines have been delivered worldwide. 
+Codeyoung (website , search trend )
+Codeyoung provides 1:1 online tuition for childr...
